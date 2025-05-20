@@ -1,0 +1,73 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@font-face {
+  font-family: 'MV Waheed';
+  src: url('https://cdn.jsdelivr.net/gh/jawish/dhivehi-fonts@1.0.0/mvwaheed/MVWaheed.ttf') format('truetype');
+  font-weight: normal;
+  font-style: normal;
+  font-display: swap;
+}
+
+@layer base {
+  .thaana-waheed {
+    font-family: 'MV Waheed', sans-serif;
+    direction: rtl;
+  }
+
+  .prose {
+    @apply max-w-none;
+  }
+  
+  .prose p {
+    @apply mb-4;
+  }
+  
+  .prose h1 {
+    @apply text-3xl font-bold mb-4 mt-6;
+  }
+  
+  .prose h2 {
+    @apply text-2xl font-bold mb-3 mt-5;
+  }
+  
+  .prose ul {
+    @apply list-disc pl-6 mb-4;
+  }
+  
+  .prose ol {
+    @apply list-decimal pl-6 mb-4;
+  }
+  
+  .prose blockquote {
+    @apply border-l-4 border-gray-300 pl-4 italic my-4;
+  }
+  
+  .prose code {
+    @apply bg-gray-100 rounded px-1 py-0.5;
+  }
+  
+  .prose pre {
+    @apply bg-gray-100 rounded p-4 mb-4 overflow-x-auto;
+  }
+  
+  .prose img {
+    @apply rounded-lg max-w-full h-auto my-4;
+  }
+  
+  .prose a {
+    @apply text-blue-600 hover:text-blue-800 underline;
+  }
+  
+  .prose mark {
+    @apply bg-yellow-200 px-1 rounded;
+  }
+}
+
+@layer utilities {
+  .placeholder\:thaana-waheed::placeholder {
+    font-family: 'MV Waheed', sans-serif;
+    direction: rtl;
+  }
+}
