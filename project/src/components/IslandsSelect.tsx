@@ -19,11 +19,17 @@ export const IslandsSelect: React.FC<IslandsSelectProps> = ({
   placeholder,
   className
 }) => {
-  const { islands, loading, error } = useIslands(atollIds);
-  const [filteredIslands, setFilteredIslands] = useState(islands || []);
+  // Make sure we only call useIslands with a valid array of atoll IDs
+  const validAtollIds = atollIds && atollIds.length > 0 ? atollIds : undefined;
+  console.log('IslandsSelect with atollIds:', validAtollIds);
+  
+  const { islands, loading, error } = useIslands(validAtollIds);
+  const [filteredIslands, setFilteredIslands] = useState<any[]>([]);
 
-  // Update filtered islands when atoll selection changes
+  // Update filtered islands when atoll selection changes or islands data loads
   useEffect(() => {
+    console.log('Islands or value changed:', islands?.length, value);
+    
     if (islands) {
       // Keep any selected islands that are still valid after atoll selection changes
       const validSelectedIslands = value.filter(id => 
@@ -32,6 +38,7 @@ export const IslandsSelect: React.FC<IslandsSelectProps> = ({
       
       // If some selected islands are no longer valid, update the selection
       if (validSelectedIslands.length !== value.length) {
+        console.log('Updating selected islands:', validSelectedIslands);
         onChange(validSelectedIslands);
       }
       
@@ -54,9 +61,9 @@ export const IslandsSelect: React.FC<IslandsSelectProps> = ({
       </div>
     );
   }
-
+  
   // Filter and map islands to match MultiSelect option format
-  const options = filteredIslands.map(island => ({
+  const options = filteredIslands?.map(island => ({
     id: island.id,
     name: island.name,
     name_en: island.name_en,

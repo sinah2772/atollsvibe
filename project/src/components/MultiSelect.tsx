@@ -56,15 +56,15 @@ export const MultiSelect: React.FC<MultiSelectProps> = ({
   const filteredOptions = options.filter(option => {
     const searchLower = searchTerm.toLowerCase();
     const nameMatch = (language === 'dv' ? option.name : option.name_en)
-      .toLowerCase()
-      .includes(searchLower);
+      ?.toLowerCase()
+      ?.includes(searchLower);
     const altNameMatch = (language === 'dv' ? option.name_en : option.name)
-      .toLowerCase()
-      .includes(searchLower);
+      ?.toLowerCase()
+      ?.includes(searchLower);
     const atollMatch = option.atoll && (
       (language === 'dv' ? option.atoll.name : option.atoll.name_en)
-        .toLowerCase()
-        .includes(searchLower)
+        ?.toLowerCase()
+        ?.includes(searchLower)
     );
     return !value.includes(option.id) && (nameMatch || altNameMatch || atollMatch);
   });

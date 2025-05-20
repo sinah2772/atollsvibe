@@ -315,6 +315,7 @@ const NewArticle: React.FC = () => {
               options={atolls || []}
               value={selectedAtolls}
               onChange={(values) => {
+                console.log('Selected atolls changed:', values);
                 setSelectedAtolls(values);
                 setSelectedIslands([]); // Clear island selection when atolls change
               }}
@@ -331,7 +332,10 @@ const NewArticle: React.FC = () => {
               <IslandsSelect
                 atollIds={selectedAtolls}
                 value={selectedIslands}
-                onChange={setSelectedIslands}
+                onChange={(values) => {
+                  console.log('Selected islands changed:', values);
+                  setSelectedIslands(values);
+                }}
                 language={language}
               />
             </div>

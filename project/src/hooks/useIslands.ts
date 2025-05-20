@@ -1,4 +1,4 @@
-import { useState, useEffect, useCallback } from 'react';
+import { useState, useEffect, useCallback, useRef } from 'react';
 import { supabase } from '../lib/supabase';
 
 type Island = {
@@ -31,9 +31,24 @@ export function useIslands(atollIds?: number[]) {
   const [islands, setIslands] = useState<Island[]>([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
-
+  const prevAtollIdsRef = useRef<number[] | undefined>();
+  
   const fetchIslands = useCallback(async () => {
     try {
+      // Check if the atollIds have actually changed
+      const prevAtollIds = prevAtollIdsRef.current;
+      const atollIdsChanged = 
+        !prevAtollIds && atollIds || 
+        !atollIds && prevAtollIds || 
+        (atollIds && prevAtollIds && 
+          (atollIds.length !== prevAtollIds.length || 
+           !atollIds.every((id, i) => id === prevAtollIds[i])));
+
+      console.log('Fetching islands with atollIds:', atollIds, 'changed:', atollIdsChanged);
+      
+      // Update the ref to current atollIds
+      prevAtollIdsRef.current = atollIds;
+      
       setLoading(true);
       setError(null);
 
@@ -60,6 +75,7 @@ export function useIslands(atollIds?: number[]) {
       const { data, error: dbError } = await query;
 
       if (dbError) throw dbError;
+      console.log('Islands data fetched:', data?.length || 0, 'islands');
       setIslands(data || []);
     } catch (err) {
       console.error('Error fetching islands:', err);
@@ -70,8 +86,9 @@ export function useIslands(atollIds?: number[]) {
   }, [atollIds]);
 
   useEffect(() => {
+    console.log('useIslands useEffect triggered, atollIds:', atollIds);
     fetchIslands();
-  }, [fetchIslands]);
+  }, [fetchIslands, atollIds]);
 
   return {
     islands,
