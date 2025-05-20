@@ -7,4 +7,5 @@ export default defineConfig({
   optimizeDeps: {
     exclude: ['lucide-react'],
   },
+  base: '/atollsvibe/', // Use repository name as base path for GitHub Pages
 });
